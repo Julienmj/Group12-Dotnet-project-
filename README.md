@@ -162,7 +162,7 @@ For questions or support, please contact:
 - Project Repository: https://github.com/Julienmj/Group12-Dotnet-project-
 - Team Lead: Mugisha Julien (Student ID: 26967)
 
-## Project Timeline
+## Project Timeline (not official)
 
 ### Phase 1: Project Setup & Planning ✅
 - Project description and problem statement
