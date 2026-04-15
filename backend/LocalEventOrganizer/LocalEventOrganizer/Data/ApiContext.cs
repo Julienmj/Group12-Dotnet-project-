@@ -1,4 +1,4 @@
-using LocalEventOrganizer.Models;
+﻿using LocalEventOrganizer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalEventOrganizer.Data
@@ -10,5 +10,7 @@ namespace LocalEventOrganizer.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Venue> Venues { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
     }
 }
