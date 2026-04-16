@@ -170,6 +170,21 @@ npm run preview  # preview production build locally
 
 ---
 
+## Environment Variables
+
+Create a `.env` file inside the `frontend/` folder:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Then update `src/api.js` to use it:
+```js
+baseURL: import.meta.env.VITE_API_URL
+```
+
+---
+
 ## Connecting to Backend
 
 All pages use mock data fallback while the backend is being connected. Once the backend is running:
