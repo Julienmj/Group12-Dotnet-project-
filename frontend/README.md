@@ -170,6 +170,17 @@ npm run preview  # preview production build locally
 
 ---
 
+## Contributing
+
+1. Always work on your personal branch only
+2. Follow the existing code style — Vue 3 Composition API with `<script setup>`
+3. Keep components small and reusable
+4. Use CSS variables from `styles.css` — never hardcode colors
+5. Test your changes locally with `npm run dev` before pushing
+6. Write clear commit messages describing what you did
+
+---
+
 ## Known Issues & Pending Tasks
 
 | Task | Status |
