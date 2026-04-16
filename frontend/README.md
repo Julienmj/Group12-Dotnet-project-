@@ -170,6 +170,22 @@ npm run preview  # preview production build locally
 
 ---
 
+## Deployment
+
+The frontend is deployed on **Vercel** and auto-deploys on every push to `main`.
+
+| Setting | Value |
+|---------|-------|
+| Platform | Vercel |
+| Root Directory | `frontend` |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Branch | `main` |
+
+To trigger a manual redeploy go to Vercel dashboard → Deployments → Redeploy.
+
+---
+
 ## Mock Data
 
 All pages include mock data fallback so the app works without the backend running. Mock data is defined inside each page's `onMounted` catch block.
