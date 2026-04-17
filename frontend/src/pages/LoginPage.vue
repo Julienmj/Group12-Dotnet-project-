@@ -1,14 +1,5 @@
 <template>
   <div class="auth-wrapper">
-    <!-- Animated Background -->
-    <div class="animated-bg">
-      <div class="shape shape-1"></div>
-      <div class="shape shape-2"></div>
-      <div class="shape shape-3"></div>
-      <div class="shape shape-4"></div>
-      <div class="shape shape-5"></div>
-    </div>
-
     <div class="auth-card">
       <div class="auth-logo">
         <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,6 +54,14 @@
         Don't have an account? <router-link to="/register">Register</router-link>
       </p>
     </div>
+
+    <div class="auth-visual">
+      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80" alt="events" />
+      <div class="visual-overlay">
+        <h3>Connect with your community</h3>
+        <p>Discover and attend local events happening around you</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,116 +99,17 @@ async function handleLogin() {
 
 <style scoped>
 .auth-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* Animated Background */
-.animated-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.shape {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.5;
-  animation: float 20s infinite ease-in-out;
-}
-
-.shape-1 {
-  width: 400px;
-  height: 400px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  top: -100px;
-  left: -100px;
-  animation-delay: 0s;
-}
-
-.shape-2 {
-  width: 350px;
-  height: 350px;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  top: 50%;
-  right: -100px;
-  animation-delay: 2s;
-}
-
-.shape-3 {
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  bottom: -100px;
-  left: 30%;
-  animation-delay: 4s;
-}
-
-.shape-4 {
-  width: 250px;
-  height: 250px;
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  top: 20%;
-  right: 25%;
-  animation-delay: 6s;
-}
-
-.shape-5 {
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  bottom: 20%;
-  right: 40%;
-  animation-delay: 8s;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(50px, -50px) scale(1.1);
-  }
-  50% {
-    transform: translate(-30px, 30px) scale(0.9);
-  }
-  75% {
-    transform: translate(40px, 40px) scale(1.05);
-  }
 }
 
 .auth-card {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 440px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 48px 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 56px;
+  background: var(--white);
 }
 
 .auth-logo {
@@ -338,14 +238,33 @@ async function handleLogin() {
 
 .auth-switch a { color: var(--blue); font-weight: 600; }
 
+.auth-visual {
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visual-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: white;
+}
+
+.visual-overlay h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.visual-overlay p { font-size: 14px; opacity: 0.85; }
+
 @media (max-width: 768px) {
-  .auth-card { 
-    margin: 20px;
-    padding: 40px 28px; 
-  }
-  
-  .shape {
-    filter: blur(40px);
-  }
+  .auth-wrapper { grid-template-columns: 1fr; }
+  .auth-visual { display: none; }
+  .auth-card { padding: 40px 24px; }
 }
 </style>
