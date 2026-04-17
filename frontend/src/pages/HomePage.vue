@@ -1,11 +1,21 @@
 <template>
   <AppLayout>
     <div class="hero">
-      <h1>Find Events Near You</h1>
-      <p>Discover local events, connect with your community, and never miss what's happening around you.</p>
-      <div class="hero-actions">
-        <router-link to="/events" class="btn-primary">Browse Events</router-link>
-        <router-link v-if="!auth.isLoggedIn" to="/register" class="btn-ghost">Join Free</router-link>
+      <div class="hero-content">
+        <h1 class="hero-title">Find Events Near You</h1>
+        <p class="hero-subtitle">Discover local events, connect with your community, and never miss what's happening around you.</p>
+        <div class="hero-actions">
+          <router-link to="/events" class="btn-primary">
+            <span class="btn-icon">🎉</span>
+            Browse Events
+          </router-link>
+          <router-link v-if="!auth.isLoggedIn" to="/register" class="btn-ghost">Join Free</router-link>
+        </div>
+      </div>
+      <div class="hero-decoration">
+        <div class="floating-emoji">🎵</div>
+        <div class="floating-emoji">⚽</div>
+        <div class="floating-emoji">🍕</div>
       </div>
     </div>
 
@@ -51,12 +61,12 @@ import { useAuthStore } from '../stores/auth'
 
 const auth = useAuthStore()
 const categories = [
-  { name: 'Music & Art', icon: '🎵' },
-  { name: 'Sports', icon: '⚽' },
-  { name: 'Food & Drink', icon: '🍕' },
-  { name: 'Tech', icon: '💻' },
-  { name: 'Community', icon: '🤝' },
-  { name: 'Education', icon: '📚' },
+  { name: 'Music & Art', icon: '🎵', color: '#FF6B9D' },
+  { name: 'Sports', icon: '⚽', color: '#4CAF50' },
+  { name: 'Food & Drink', icon: '🍕', color: '#FF9800' },
+  { name: 'Tech', icon: '💻', color: '#2196F3' },
+  { name: 'Community', icon: '🤝', color: '#9C27B0' },
+  { name: 'Education', icon: '📚', color: '#00BCD4' },
 ]
 </script>
 
@@ -66,12 +76,94 @@ const categories = [
   border-radius: var(--card-radius);
   padding: 48px 40px;
   margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
-.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin-bottom: 24px; line-height: 1.6; }
+.hero-content {
+  flex: 1;
+  z-index: 2;
+}
 
-.hero-actions { display: flex; gap: 12px; }
+.hero-title { 
+  font-size: 36px; 
+  font-weight: 700; 
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #1D9BF0 0%, #0d7ac7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-subtitle { 
+  font-size: 16px; 
+  color: var(--muted); 
+  max-width: 520px; 
+  margin-bottom: 24px; 
+  line-height: 1.6;
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+.hero-actions { 
+  display: flex; 
+  gap: 12px;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.btn-icon {
+  margin-right: 6px;
+  display: inline-block;
+  animation: bounce 2s infinite;
+}
+
+.hero-decoration {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 20px;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.floating-emoji {
+  font-size: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-emoji:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.floating-emoji:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
 
 .stats-row {
   display: grid;
@@ -111,11 +203,32 @@ const categories = [
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
 }
 
-.cat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); background: #e8f4fd; }
+.cat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(29, 155, 240, 0.1) 0%, rgba(29, 155, 240, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cat-card:hover { 
+  transform: translateY(-4px) scale(1.02); 
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.cat-card:hover::before {
+  opacity: 1;
+}
 
 .cat-icon { font-size: 28px; }
 .cat-name { font-size: 11px; font-weight: 600; color: var(--text); text-align: center; }

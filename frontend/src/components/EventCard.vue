@@ -79,13 +79,32 @@ function formatDate(dateStr) {
   border-radius: var(--card-radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  position: relative;
+}
+
+.event-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid var(--blue);
+  border-radius: var(--card-radius);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
 }
 
 .event-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.event-card:hover::after {
+  opacity: 0.3;
 }
 
 .card-image {
@@ -98,6 +117,11 @@ function formatDate(dateStr) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.event-card:hover .card-image img {
+  transform: scale(1.08);
 }
 
 .category-badge {
@@ -195,12 +219,40 @@ function formatDate(dateStr) {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--muted);
 }
 
-.action-btn:hover { border-color: var(--blue); color: var(--blue); }
-.action-btn.attend.active { background: #e8f4fd; color: var(--blue); border-color: var(--blue); }
-.action-btn.save.active { background: #fff0f0; color: #e0245e; border-color: #e0245e; }
-.action-btn.dismiss:hover { border-color: #e0245e; color: #e0245e; }
+.action-btn:hover { 
+  border-color: var(--blue); 
+  color: var(--blue);
+  transform: scale(1.15);
+}
+
+.action-btn.attend.active { 
+  background: #e8f4fd; 
+  color: var(--blue); 
+  border-color: var(--blue);
+  transform: scale(1.1);
+}
+
+.action-btn.save.active { 
+  background: #fff0f0; 
+  color: #e0245e; 
+  border-color: #e0245e;
+  transform: scale(1.1);
+  animation: heartbeat 0.6s ease;
+}
+
+.action-btn.dismiss:hover { 
+  border-color: #e0245e; 
+  color: #e0245e;
+  transform: scale(1.15) rotate(90deg);
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1.1); }
+}
 </style>
