@@ -26,6 +26,8 @@ export function useApi() {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
+      // Since backend has .AllowCredentials(), some browsers require this
+      credentials: 'include' 
     })
     
     const data = await res.json().catch(() => ({}))

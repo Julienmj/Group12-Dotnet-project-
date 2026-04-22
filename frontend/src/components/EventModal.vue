@@ -45,17 +45,10 @@
             <button class="btn btn-outline-amber" @click="$emit('save', event.id)">
               🔖 {{ isSaved ? 'Saved' : 'Save' }}
             </button>
-            <button
-              v-if="!isOwner"
-              class="btn btn-amber"
-              :disabled="registering || isAlreadyRegistered"
-              @click="handleRegister"
-            >
+            <button class="btn btn-amber" :disabled="registering" @click="handleRegister">
               <span v-if="registering" class="loading-spinner"></span>
-              <span v-else-if="isAlreadyRegistered">✅ Registered</span>
               <span v-else>Register Now</span>
             </button>
-            <span v-else class="pill pill-upcoming" style="padding:8px 14px">Your Event</span>
           </div>
         </div>
 
@@ -125,15 +118,6 @@ const { show } = useToast()
 const stars = ref(0)
 const reviewText = ref('')
 const registering = ref(false)
-
-const isAlreadyRegistered = computed(() =>
-  eventsStore.registrations.some(r => (r.eventID || r.eventId) === props.event.id)
-)
-
-const isOwner = computed(() => {
-  const uid = auth.user?.id || auth.user?.userID
-  return props.event.organizerID === uid
-})
 
 const formattedDate = computed(() => {
   if (!props.event.eventDate) return 'TBD'

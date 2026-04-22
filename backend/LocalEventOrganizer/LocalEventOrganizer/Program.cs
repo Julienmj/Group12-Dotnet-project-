@@ -35,14 +35,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
-});
-
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -56,7 +48,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
