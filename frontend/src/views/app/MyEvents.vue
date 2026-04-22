@@ -26,6 +26,7 @@
         <span class="pill" :class="statusClass(ev.status)">{{ ev.status }}</span>
         <div class="table-actions">
           <button class="row-btn" @click="selectedEvent = ev">View</button>
+          <button class="row-btn" @click="openEdit(ev)">Edit</button>
           <button class="row-btn danger" @click="confirmDelete(ev)">Delete</button>
         </div>
       </div>
@@ -45,6 +46,51 @@
       @save="eventsStore.toggleSave($event)"
       @registered="() => {}"
     />
+
+    <!-- Edit Modal -->
+    <div v-if="editEvent" class="modal-overlay" @click.self="editEvent = null">
+      <div class="modal-box" style="max-width:500px;padding:28px">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:20px">Edit Event</h2>
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input v-model="editForm.title" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea v-model="editForm.description" class="form-input textarea"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input v-model="editForm.date" class="form-input" type="date"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Capacity</label>
+            <input v-model.number="editForm.capacity" class="form-input" type="number"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (RWF)</label>
+            <input v-model.number="editForm.price" class="form-input" type="number"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select v-model="editForm.status" class="form-input">
+              <option value="Pending">Pending</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="live">Live</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
+        </div>
+        <div v-if="editError" class="error-msg">{{ editError }}</div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn btn-amber" :disabled="editLoading" @click="saveEdit">
+            {{ editLoading ? 'Saving...' : 'Save Changes' }}
+          </button>
+          <button class="btn btn-ghost" @click="editEvent = null">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,6 +105,49 @@ const eventsStore = useEventsStore()
 const auth = useAuthStore()
 const { show } = useToast()
 const selectedEvent = ref(null)
+const editEvent = ref(null)
+const editLoading = ref(false)
+const editError = ref('')
+const editForm = ref({})
+
+function openEdit(ev) {
+  editEvent.value = ev
+  const d = ev.eventDate ? new Date(ev.eventDate).toISOString().split('T')[0] : ''
+  editForm.value = {
+    title: ev.title,
+    description: ev.description || '',
+    date: d,
+    capacity: ev.maxAttendees || ev.capacity || 0,
+    price: ev.price || 0,
+    status: ev.status || 'Pending'
+  }
+  editError.value = ''
+}
+
+async function saveEdit() {
+  editLoading.value = true
+  editError.value = ''
+  try {
+    const id = editEvent.value.id || editEvent.value.eventID
+    await eventsStore.updateEvent(id, {
+      title: editForm.value.title,
+      description: editForm.value.description,
+      eventDate: new Date(editForm.value.date).toISOString(),
+      maxAttendees: editForm.value.capacity,
+      price: editForm.value.price,
+      status: editForm.value.status,
+      organizerID: editEvent.value.organizerID,
+      categoryID: editEvent.value.categoryID,
+      venueID: editEvent.value.venueID,
+    })
+    show('Event updated!', '✅')
+    editEvent.value = null
+  } catch (e) {
+    editError.value = e.message || 'Failed to update event.'
+  } finally {
+    editLoading.value = false
+  }
+}
 
 const myEvents = computed(() => {
   const uid = auth.user?.id || auth.user?.userID

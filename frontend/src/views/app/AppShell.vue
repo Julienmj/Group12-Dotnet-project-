@@ -19,7 +19,7 @@
             <span v-if="eventsStore.unreadCount > 0" class="notif-badge"></span>
           </RouterLink>
           <RouterLink to="/" class="btn btn-ghost" style="font-size:13px;padding:7px 14px">← Landing</RouterLink>
-          <RouterLink to="/app/create" class="btn btn-amber" style="padding:8px 18px;font-size:13px">+ Create Event</RouterLink>
+          <RouterLink v-if="auth.isOrganizer" to="/app/create" class="btn btn-amber" style="padding:8px 18px;font-size:13px">+ Create Event</RouterLink>
         </div>
       </header>
 

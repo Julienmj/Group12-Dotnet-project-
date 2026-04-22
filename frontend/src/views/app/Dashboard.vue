@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <!-- Upcoming Events -->
+      <!-- Upcoming Events / My Registrations -->
       <div class="section-row" style="margin-top:24px">
         <div class="section-label">{{ auth.isOrganizer ? 'My Managed Events' : 'Upcoming Events' }}</div>
         <RouterLink :to="auth.isOrganizer ? '/app/myevents' : '/app/events'" class="btn btn-ghost" style="font-size:12px;padding:6px 14px">View all</RouterLink>
@@ -105,6 +105,32 @@
         </div>
         <div v-if="!upcomingEvents.length" class="empty-state">No upcoming events found.</div>
       </div>
+
+      <!-- Attendee: My Registered Events -->
+      <template v-if="!auth.isOrganizer && eventsStore.registrations.length">
+        <div class="section-row" style="margin-top:24px">
+          <div class="section-label">My Registrations</div>
+          <RouterLink to="/app/saved" class="btn btn-ghost" style="font-size:12px;padding:6px 14px">Saved Events</RouterLink>
+        </div>
+        <div class="upcoming-list">
+          <div
+            v-for="reg in eventsStore.registrations.slice(0, 5)"
+            :key="reg.id || reg.registrationID"
+            class="upcoming-item"
+            @click="openModal(getEventForReg(reg))"
+          >
+            <div class="date-block" style="background:var(--teal-pale)">
+              <div class="date-mon" style="color:var(--teal)">{{ formatMon(getEventForReg(reg)?.eventDate) }}</div>
+              <div class="date-day">{{ formatDay(getEventForReg(reg)?.eventDate) }}</div>
+            </div>
+            <div class="upcoming-info">
+              <div class="upcoming-title">{{ getEventForReg(reg)?.title || 'Event' }}</div>
+              <div class="upcoming-sub">Status: {{ reg.status || 'confirmed' }}</div>
+            </div>
+            <span class="pill pill-live">✅ Registered</span>
+          </div>
+        </div>
+      </template>
     </div>
 
     <!-- Aside: Gemini AI -->
@@ -316,7 +342,10 @@ function buildBar() {
 onMounted(() => { buildDonut(); buildBar() })
 watch(() => eventsStore.events.length, () => { buildDonut(); buildBar() })
 
-function openModal(ev) { selectedEvent.value = ev }
+function openModal(ev) { if (ev) selectedEvent.value = ev }
+function getEventForReg(reg) {
+  return eventsStore.events.find(e => e.id === (reg.eventID || reg.eventId))
+}
 function formatMon(d) { if (!d) return 'TBA'; return new Date(d).toLocaleDateString('en', { month: 'short' }).toUpperCase() }
 function formatDay(d) { if (!d) return '--'; return new Date(d).getDate() }
 function formatTime(d, t) {

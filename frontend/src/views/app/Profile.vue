@@ -8,9 +8,9 @@
     <div class="profile-grid">
       <div class="profile-card">
         <div class="profile-av-large">{{ auth.initials }}</div>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:4px">{{ auth.user?.Name }}</h3>
-        <p style="font-size:13px;color:var(--ink3);margin-bottom:4px">{{ auth.user?.Email }}</p>
-        <span class="pill pill-upcoming">{{ auth.user?.Role }}</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:4px">{{ auth.user?.fullName }}</h3>
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:4px">{{ auth.user?.email }}</p>
+        <span class="pill pill-upcoming">{{ auth.user?.role }}</span>
       </div>
 
       <div class="profile-card">
@@ -47,6 +47,7 @@ import { useToast } from '@/composables/useToast'
 const auth = useAuthStore()
 const { show } = useToast()
 const loading = ref(false)
+const saved = ref(false)
 
 const form = reactive({
   name: auth.user?.fullName || auth.user?.Name || '',
@@ -63,6 +64,8 @@ async function saveProfile() {
       email: form.email,
       role: form.role
     })
+    saved.value = true
+    setTimeout(() => { saved.value = false }, 3000)
     show('Profile updated successfully!', '👤')
   } catch (e) {
     show(e.message || 'Failed to update profile.', '⚠️')
