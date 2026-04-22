@@ -121,12 +121,14 @@ const copied = ref(false)
 const fallbackImage = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80'
 
 const mockEvents = {
-  1: { id: 1, title: 'Kigali Jazz Night', date: '2026-04-12', location: 'Kigali, Rwanda', category: 'Music & Art', attendeeCount: 142, organizer: 'Kigali Arts Collective', price: 0, spotsLeft: 58, imageUrl: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200&q=80', description: 'An unforgettable evening of live jazz music featuring local and international artists. Enjoy great music, food, and connect with fellow music lovers in the heart of Kigali.' },
-  2: { id: 2, title: 'Community Football Tournament', date: '2026-04-13', location: 'Amahoro Stadium', category: 'Sports', attendeeCount: 320, organizer: 'Kigali Sports Club', price: 0, spotsLeft: 80, imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&q=80', description: 'Annual community football tournament open to all skill levels. Form your team and compete for the championship trophy!' },
-  3: { id: 3, title: 'Tech Startup Meetup', date: '2026-04-15', location: 'Norrsken House', category: 'Tech', attendeeCount: 87, organizer: 'Rwanda Tech Hub', price: 0, spotsLeft: 13, imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80', description: 'Monthly meetup for tech entrepreneurs, developers, and investors. Pitch your ideas, network, and learn from industry leaders.' },
-  4: { id: 4, title: 'Art Exhibition: Colors of Africa', date: '2026-04-19', location: 'Inema Arts Center', category: 'Music & Art', attendeeCount: 65, organizer: 'Inema Arts', price: 5, spotsLeft: 35, imageUrl: 'https://images.unsplash.com/photo-1578926288207-a90a5366759d?w=1200&q=80', description: 'A vibrant exhibition celebrating African art, culture, and creativity through paintings, sculptures, and installations.' },
-  5: { id: 5, title: 'Food & Culture Festival', date: '2026-04-20', location: 'Kimironko Market', category: 'Food & Drink', attendeeCount: 210, organizer: 'Kigali Food Network', price: 0, spotsLeft: 190, imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&q=80', description: 'Taste dishes from across Rwanda and beyond. Live cooking demos, cultural performances, and family-friendly activities.' },
-  6: { id: 6, title: 'Youth Leadership Summit', date: '2026-04-22', location: 'Radisson Blu, Kigali', category: 'Education', attendeeCount: 180, organizer: 'Rwanda Youth Council', price: 10, spotsLeft: 20, imageUrl: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&q=80', description: 'Empowering the next generation of African leaders through workshops, keynotes, and networking sessions.' },
+  // mur backendnyeneye ano ma name attributes "title","description","description","eventDate","maxAttendees","categoryID but retrieve CategoryName", "status", "organizerID", "venueID" TODO: on backend add price tag, imageUrl
+   
+  1: { id: 1, title: 'Kigali Jazz Night', eventDate: '2026-04-12', location: 'Kigali, Rwanda', category: 'Music & Art', attendeeCount: 142, organizer: 'Kigali Arts Collective', price: 0, spotsLeft: 58, imageUrl: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200&q=80', description: 'An unforgettable evening of live jazz music featuring local and international artists. Enjoy great music, food, and connect with fellow music lovers in the heart of Kigali.' },
+  2: { id: 2, title: 'Community Football Tournament', eventDate: '2026-04-13', location: 'Amahoro Stadium', category: 'Sports', attendeeCount: 320, organizer: 'Kigali Sports Club', price: 0, spotsLeft: 80, imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&q=80', description: 'Annual community football tournament open to all skill levels. Form your team and compete for the championship trophy!' },
+  3: { id: 3, title: 'Tech Startup Meetup', eventDate: '2026-04-15', location: 'Norrsken House', category: 'Tech', attendeeCount: 87, organizer: 'Rwanda Tech Hub', price: 0, spotsLeft: 13, imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80', description: 'Monthly meetup for tech entrepreneurs, developers, and investors. Pitch your ideas, network, and learn from industry leaders.' },
+  4: { id: 4, title: 'Art Exhibition: Colors of Africa', eventDate: '2026-04-19', location: 'Inema Arts Center', category: 'Music & Art', attendeeCount: 65, organizer: 'Inema Arts', price: 5, spotsLeft: 35, imageUrl: 'https://images.unsplash.com/photo-1578926288207-a90a5366759d?w=1200&q=80', description: 'A vibrant exhibition celebrating African art, culture, and creativity through paintings, sculptures, and installations.' },
+  5: { id: 5, title: 'Food & Culture Festival', eventDate: '2026-04-20', location: 'Kimironko Market', category: 'Food & Drink', attendeeCount: 210, organizer: 'Kigali Food Network', price: 0, spotsLeft: 190, imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&q=80', description: 'Taste dishes from across Rwanda and beyond. Live cooking demos, cultural performances, and family-friendly activities.' },
+  6: { id: 6, title: 'Youth Leadership Summit', eventDate: '2026-04-22', location: 'Radisson Blu, Kigali', category: 'Education', attendeeCount: 180, organizer: 'Rwanda Youth Council', price: 10, spotsLeft: 20, imageUrl: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&q=80', description: 'Empowering the next generation of African leaders through workshops, keynotes, and networking sessions.' },
 }
 
 function formatDate(dateStr) {
@@ -138,7 +140,7 @@ async function toggleAttend() {
   actionLoading.value = true
   try {
     if (attending.value) {
-      await api.delete(`/events/${event.value.id}/attend`)
+      await api.delete(`/events/${event.value.id}`)
     } else {
       await api.post(`/events/${event.value.id}/attend`)
     }
