@@ -89,7 +89,7 @@
               <i
                 v-for="s in 5" :key="s"
                 :class="stars >= s ? 'ph-fill ph-star star-btn active' : 'ph ph-star star-btn'"
-                @click="stars = s"
+                @click="setRating(s)"
               ></i>
             </div>
             <textarea
@@ -156,6 +156,10 @@ const formattedTime = computed(() => {
   return new Date(props.event.eventDate).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false })
 })
 
+function setRating(rating) {
+  stars.value = rating
+}
+
 async function handleRegister() {
   if (!auth.isLoggedIn) {
     show('Please sign in to register.', '📍')
@@ -199,3 +203,23 @@ async function submitReview() {
   }
 }
 </script>
+
+<style scoped>
+.star-input {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.star-btn {
+  font-size: 18px;
+  color: var(--border2);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.star-btn:hover {
+  color: var(--accent);
+}
+.star-btn.active {
+  color: var(--accent);
+}
+</style>
