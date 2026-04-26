@@ -234,7 +234,7 @@ For complete API documentation, see [API_MIGRATION.md](frontend/API_MIGRATION.md
 
 | Service | URL | Branch |
 |---------|-----|--------|
-| **Frontend** | https://local-event-app.vercel.app | `frontend-b` |
+| **Frontend** | https://local-event-app.vercel.app/ | `frontend-b` |
 | **Backend API** | https://localeventorganizer.onrender.com/api/v1 | `BACK-END` |
 | **API Documentation** | https://localeventorganizer.onrender.com/swagger | `BACK-END` |
 
